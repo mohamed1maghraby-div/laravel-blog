@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -26,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -37,4 +38,29 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm()
+    {
+        return view('user.auth.login');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if($user->status == 1){
+            return redirect()->route('user.dashboard')->with([
+                'message' => 'Logged in successfully.',
+                'alert-type' => 'success'
+            ]);
+        }
+        return redirect()->route('user.index')->with([
+            'message' => 'Something went wrong !',
+            'alert-type' => 'warning'
+        ]);
+    }
+
+    public function username()
+    {
+        return 'username';
+    }
+
 }
