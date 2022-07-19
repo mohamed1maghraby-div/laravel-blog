@@ -10,7 +10,7 @@ use SebastianBergmann\Environment\Runtime;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $guarded = [];
 
