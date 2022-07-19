@@ -45,6 +45,10 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function approved_comments(){
+        return $this->hasMany(Comment::class)->whereStatus(1);
+    }
+
     public function media(){
         return $this->hasMany(PostMedia::class);
     }
