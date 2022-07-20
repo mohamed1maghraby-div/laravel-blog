@@ -19,56 +19,47 @@
                 </div>
                 <div class="comments">
                   <h4 class="comment-title font-alt">There {{ $post->comments->count() > 1 ? 'are ' . $post->comments->count() . ' comments' : 'is ' . $post->comments->count() . ' comment'}}</h4>
-                  <div class="comment clearfix">
-                    <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/ryanbattles/128.jpg" alt="avatar"/></div>
-                    <div class="comment-content clearfix">
-                      <div class="comment-author font-alt"><a href="#">John Doe</a></div>
-                      <div class="comment-body">
-                        <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
-                      </div>
-                      <div class="comment-meta font-alt">Today, 14:55 - <a href="#">Reply</a>
-                      </div>
-                    </div>
+                  @forelse ($post->comments as $comment)
                     <div class="comment clearfix">
-                      <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/draganbabic/128.jpg" alt="avatar"/></div>
+                      <div class="comment-avatar">
+                        <img src="{{ get_gravatar($comment->email, 46) }}" alt="avatar"/>
+                      </div>
                       <div class="comment-content clearfix">
-                        <div class="comment-author font-alt"><a href="#">Mark Stone</a></div>
+                        <div class="comment-author font-alt"><a href="{{ $comment->url != '' ? $comment->url : '#' }}">{{ $comment->name }}</a></div>
                         <div class="comment-body">
-                          <p>Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
+                          <p>{{ $comment->comment }}</p>
                         </div>
-                        <div class="comment-meta font-alt">Today, 15:34 - <a href="#">Reply</a>
-                        </div>
+                        <div class="comment-meta font-alt"> {{ $comment->created_at->format('M d h:i') }} </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="comment clearfix">
-                    <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/pixeliris/128.jpg" alt="avatar"/></div>
-                    <div class="comment-content clearfix">
-                      <div class="comment-author font-alt"><a href="#">Andy</a></div>
-                      <div class="comment-body">
-                        <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
-                      </div>
-                      <div class="comment-meta font-alt">Today, 14:59 - <a href="#">Reply</a>
-                      </div>
-                    </div>
-                  </div>
+                  @empty
+                    <p>No comments found</p>
+                  @endforelse
+
                 </div>
                 <div class="comment-form">
                   <h4 class="comment-form-title font-alt">Add your comment</h4>
-                  <form method="post">
+                  {!! Form::open(['route' => ['posts.add_comment', $post->slug], 'method' => 'post']) !!}
                     <div class="form-group">
-                      <label class="sr-only" for="name">Name</label>
-                      <input class="form-control" id="name" type="text" name="name" placeholder="Name"/>
+                      {!! Form::label('name', 'Name', ['class' => 'sr-only']) !!}
+                      {!! Form::text('name', old('name'), ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Name']) !!}
+                      @error('name')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group">
-                      <label class="sr-only" for="email">Name</label>
-                      <input class="form-control" id="email" type="text" name="email" placeholder="E-mail"/>
+                      {!! Form::label('email', 'Email', ['class' => 'sr-only']) !!}
+                      {!! Form::email('email', old('email'), ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'E-mail']) !!}
+                      @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group">
-                      <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Comment"></textarea>
+                      {!! Form::label('url', 'Website', ['class' => 'sr-only']) !!}
+                      {!! Form::text('url', old('url'), ['class' => 'form-control', 'id' => 'url', 'placeholder' => 'Website']) !!}
+                      @error('url')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
-                    <button class="btn btn-round btn-d" type="submit">Post comment</button>
-                  </form>
+                    <div class="form-group">
+                      {!! Form::textarea('comment', old('comment'), ['class' => 'form-control','id' => 'comment','placeholder' => 'Comment', 'rows' => 4]) !!}
+                    </div>
+                    {!! Form::button('Post comment', ['type' => 'submit','class' => 'btn btn-round btn-d']) !!}
+                    {!! Form::close() !!}
                 </div>
               </div>
 

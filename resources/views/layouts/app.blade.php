@@ -10,9 +10,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -128,6 +125,9 @@
         @include('partial.user.header')
 
         <div class="main">
+            <div class="col-lg-12">
+                @include('partial.flash')
+            </div>
             @yield('content')
             @include('partial.user.footer')
         <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
@@ -139,6 +139,9 @@
     JavaScripts
     =============================================
     -->
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
     
     <script src="{{ asset('user/assets/lib/jquery/dist/jquery.js') }}"></script>
     <script src="{{ asset('user/assets/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -153,6 +156,7 @@
     <script src="{{ asset('user/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
     <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('user/assets/js/main.js') }}"></script>
+    <script src="{{ asset('user/assets/js/custom.js') }}"></script>
     </div>
 </body>
 </html>

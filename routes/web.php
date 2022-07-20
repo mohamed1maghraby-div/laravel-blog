@@ -27,3 +27,4 @@ Route::post('/email/resend', [App\Http\Controllers\User\Auth\VerificationControl
 
 
 Route::get('/{post}', [App\Http\Controllers\User\IndexController::class, 'post_show'])->name('posts.show');
+Route::post('/{post}', [App\Http\Controllers\User\IndexController::class, 'store_comment'])->name('posts.add_comment');
