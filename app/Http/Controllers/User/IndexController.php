@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,23 @@ class IndexController extends Controller
 
     public function search(Request $request)
     {
-        return 'medo';
+        $keyword = isset($request->keyword) && $request->keyword != '' ? $request->keyword : null;
+
+        $posts = Post::with(['user', 'category', 'media'])
+            ->whereHas('category', function($query){
+                $query->whereStatus(1);
+            })
+            ->whereHas('user', function($query){
+                $query->whereStatus(1);
+            });
+
+        if($keyword != null){
+            $posts = $posts->search($keyword, null, true);
+        }
+
+        $posts = $posts->post()->active()->orderBy('id', 'desc')->paginate(5);
+
+        return view('user.index', compact('posts'));
     }
 
     public function post_show($slug)
@@ -49,7 +66,7 @@ class IndexController extends Controller
 
             return view('user.' . $blade, compact('post'));
         }else{
-            return redirect()->route('user.index');
+            return view('errors.404');
         }
     }
 
@@ -92,4 +109,35 @@ class IndexController extends Controller
         ]);
     }
 
+    public function contact()
+    {
+        return view('user.contact');
+    }
+
+    public function store_contact(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required|numeric',
+            'title' => 'required|min:5',
+            'message' => 'required|min:10',
+        ]);
+        if($validation->fails()){
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['mobile'] = $request->mobile;
+        $data['title'] = $request->title;
+        $data['message'] = $request->message;
+
+        Contact::create($data);
+
+        return redirect()->back()->with([
+            'message' => 'Message sent successfully',
+            'alert-type' => 'sucess'
+        ]);
+    }
 }

@@ -15,7 +15,7 @@ class Post extends Model
 
     protected $searchable = [
         'columns' => [
-            'posts.titile' => 10,
+            'posts.title' => 10,
             'posts.description' => 10,
         ],
     ];
