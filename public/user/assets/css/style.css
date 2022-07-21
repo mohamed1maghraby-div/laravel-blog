@@ -2925,3 +2925,198 @@ Google map
     width: 100%;
   }
 }
+
+
+/* custom edit */
+.maghro-bell{
+  list-style-type: none;
+}
+.maghro-bell-icon{
+background: url(../../../user/assets/images/icons/bell_white.png);
+height: 16px;
+width: 16px;
+cursor: pointer;
+position: relative;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+  .maghro-bell-span{
+    background: #ce7852 none repeat scroll 0 0;
+    border-radius: 100px;
+    color: #fff;
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    height: 17px;
+    line-height: 17px;
+    margin: -8px 0 0;
+    min-width: auto;
+    overflow: visible;
+    padding: 0;
+    position: absolute;
+    right: -6px;
+    text-align: center;
+    top: 12%;
+    width: 16px;
+  }
+  .block-minicart {
+    background: #fff none repeat scroll 0 0;
+    left: auto;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 100%;
+    transition: -webkit-transform 0.8s ease 0s, transform 0.8s ease 0s, opacity 0.5s ease 0s, visibility 0.5s ease 0s;
+    visibility: hidden;
+    z-index: 10;
+    padding-top: 20px;
+}
+.block-minicart.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+.minicart-content-wrapper {
+  width: 390px;
+  padding: 25px 20px;
+  box-shadow: 0 3px 3px rgb(0 0 0 / 15%);
+  margin: 4px 0 0;
+  min-width: 100%;
+  top: 100%;
+  z-index: 100;
+}
+.minicart-content-wrapper .micart__close {
+  color: #333;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+  padding-right: 25px;
+  position: absolute;
+  right: 15px;
+  text-transform: uppercase;
+  top: 12px;
+  transition: all 0.4s ease 0s;
+  z-index: 11;
+}
+.micart__close{
+  margin-right: 7px;
+}
+.minicart-content-wrapper .micart__close::after {
+  background: url(../../../user/assets/images/icons/close.png) no-repeat;
+  content: "";
+  height: 16px;
+  width: 24px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-size: contain;
+}
+.minicart-content-wrapper .single__items {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #ccc currentcolor;
+  -o-border-image: none;
+  border-image: none;
+  border-style: solid none;
+  border-width: 1px 0;
+  margin: 20px -20px 0;
+  overflow-x: auto;
+  padding: 15px;
+}
+.d-flex {
+  display: flex !important;
+  align-items: center;
+}
+.minicart-content-wrapper .single__items .miniproduct .item01 .thumb {
+  flex-basis: 23%;
+}
+.minicart-content-wrapper .single__items .miniproduct .item01 .thumb a {
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  padding: 3px;
+  display: block;
+}
+.minicart-content-wrapper .single__items .miniproduct .item01 .content {
+  padding-left: 16px;
+  text-align: left;
+  flex-basis: 77%;
+}
+
+.maghro-account{
+  list-style-type: none;
+}
+.maghro-account-icon{
+background: url(../../../user/assets/images/icons/icon_setting_white.png);
+height: 16px;
+width: 18px;
+cursor: pointer;
+position: relative;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+
+
+.setting__block.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+.searchbar__content {
+  border: 1px solid #ebebeb;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 17%);
+  max-height: 430px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.setting__block {
+  background: #fff none repeat scroll 0 0;
+  left: auto;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 100%;
+  transition: -webkit-transform 0.8s ease 0s, transform 0.8s ease 0s, opacity 0.5s ease 0s, visibility 0.5s ease 0s;
+  visibility: hidden;
+  z-index: 10;
+  padding-top: 20px;
+}
+
+.searchbar__content .content-inner {
+  background: #fff none repeat scroll 0 0;
+  max-width: 230px;
+  min-width: 230px;
+  overflow: hidden;
+  padding: 15px 20px;
+  position: relative;
+  transition: all 0.4s ease-out 0s;
+}
+.searchbar__content .content-inner .switcher-currency {
+  margin-left: 15px;
+  margin-right: -6px;
+}
+.searchbar__content .content-inner .switcher-currency .label {
+  border-bottom: 1px solid #ebebeb;
+  color: #363636;
+  cursor: pointer;
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 30px;
+  margin: 0 0 10px;
+  overflow: hidden;
+  position: static;
+  text-align: left;
+  text-transform: uppercase;
+}
+.searchbar__content .content-inner .switcher-currency .switcher-options {
+  cursor: pointer;
+  display: block;
+}
+.setting__menu span{
+  display: block;
+  text-align: left;
+  padding: 5px 0;
+}
+/* end custom edit */

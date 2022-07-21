@@ -25,17 +25,60 @@
           </ul>
         </li>
         <li><a href="{{ route('user.contact') }}">Contact</a></li>
+        <li>
+          <ul>
+            <li class="maghro-bell shopcart">
+              <a class="cartbox_active" href="#"><div class="maghro-bell-icon"><span class="maghro-bell-span">3</span></div></a>
+              <div class="block-minicart minicart__active">
+									<div class="minicart-content-wrapper">
+										<div class="micart__close">
+											<span>close</span>
+										</div>
+										<div class="single__items">
+											<div class="miniproduct">
 
-{{--         <li class="dropdown"><a class="dropdown-toggle" href="documentation.html" data-toggle="dropdown">Documentation</a>
-          <ul class="dropdown-menu">
-            <li><a href="documentation.html#contact">Contact Form</a></li>
-            <li><a href="documentation.html#reservation">Reservation Form</a></li>
-            <li><a href="documentation.html#mailchimp">Mailchimp</a></li>
-            <li><a href="documentation.html#gmap">Google Map</a></li>
-            <li><a href="documentation.html#plugin">Plugins</a></li>
-            <li><a href="documentation.html#changelog">Changelog</a></li>
+												<div class="item01 d-flex">
+													<div class="thumb">
+														<a href="product-details.html"><img src="{{ asset('user/assets/images/icons/1.jpg') }}" alt="product images"></a>
+													</div>
+													<div class="content">
+                            <a href="#"> You have new comment on your post: postTitle</a>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>  
+            </li>
           </ul>
-        </li> --}}
+        </li>
+        <li>
+          <ul>
+            <li class="maghro-account">
+              <a class="setting_active" href="#"><div class="maghro-account-icon"></div></a>
+            </li>
+
+            <div class="searchbar__content setting__block">
+									<div class="content-inner">
+										<div class="switcher-currency">
+											<strong class="label switcher-label">
+												<span>My Account</span>
+											</strong>
+											<div class="switcher-options">
+												<div class="switcher-currency-trigger">
+													<div class="setting__menu">
+																													<span><a href="https://maghraby2-blog.test/login">Login</a></span>
+															<span><a href="https://maghraby2-blog.test/register">Register</a></span>
+																											</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
