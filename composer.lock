@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0fc66f8e13339c6f227d7a80d1276f5",
+    "content-hash": "c5a7c22b60d0e96bd28e4ce6815b1188",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2582,6 +2582,56 @@
             "time": "2022-01-24T11:29:14+00:00"
         },
         {
+            "name": "nicolaslopezj/searchable",
+            "version": "1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolaslopezj/searchable.git",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolaslopezj/searchable/zipball/b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "illuminate/database": ">=4.2",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nicolaslopezj\\Searchable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Lopez",
+                    "email": "nicolaslopezj@me.com"
+                }
+            ],
+            "description": "Eloquent model search trait.",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "model",
+                "search",
+                "searchable"
+            ],
+            "support": {
+                "issues": "https://github.com/nicolaslopezj/searchable/issues",
+                "source": "https://github.com/nicolaslopezj/searchable/tree/master"
+            },
+            "time": "2020-03-30T12:30:18+00:00"
+        },
+        {
             "name": "nikic/php-parser",
             "version": "v4.14.0",
             "source": {
@@ -2772,6 +2822,77 @@
                 }
             ],
             "time": "2021-12-04T23:24:31+00:00"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/predis/predis.git",
+                "reference": "99c253733dee9447d26257dc669d33d5ac84713d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/predis/predis/zipball/99c253733dee9447d26257dc669d33d5ac84713d",
+                "reference": "99c253733dee9447d26257dc669d33d5ac84713d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ~9.4.4"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net",
+                    "role": "Creator & Maintainer"
+                },
+                {
+                    "name": "Till Krüss",
+                    "homepage": "https://till.im",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A flexible and feature-complete Redis client for PHP.",
+            "homepage": "http://github.com/predis/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/predis/predis/issues",
+                "source": "https://github.com/predis/predis/tree/v2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/tillkruss",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-08T13:14:56+00:00"
         },
         {
             "name": "psr/container",

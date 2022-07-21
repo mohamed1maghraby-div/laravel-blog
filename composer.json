@@ -16,7 +16,9 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "laravelcollective/html": "^6.3",
-        "mindscms/entrust": "^2.5"
+        "mindscms/entrust": "^2.5",
+        "nicolaslopezj/searchable": "^1.13",
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

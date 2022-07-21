@@ -12,7 +12,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['media', 'user', 'category', 'media'])
+        $posts = Post::with(['user', 'category', 'media'])
             ->whereHas('category', function($query){
                 $query->whereStatus(1);
             })
@@ -22,6 +22,11 @@ class IndexController extends Controller
             ->post()->active()->orderBy('id', 'desc')->paginate(5);
 
         return view('user.index', compact('posts'));
+    }
+
+    public function search(Request $request)
+    {
+        return 'medo';
     }
 
     public function post_show($slug)
