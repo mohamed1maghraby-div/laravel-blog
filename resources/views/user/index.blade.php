@@ -28,7 +28,7 @@
                     </div>
                     <div class="post-header font-alt">
                       <h2 class="post-title"><a href="{{ route('posts.show', $post->slug) }}">{{ $post->title }}</a></h2>
-                      <div class="post-meta">By&nbsp;<a href="#">{{ $post->user->username }}</a>| {{ $post->created_at->format('d M') }} | {{ $post->comments->count() }} Comment{{ $post->comments->count() > 0 ? 's' : '' }} | <a href="#">{{ $post->category->name }} </a>
+                      <div class="post-meta">By&nbsp;<a href="{{ route('user.author', $post->user->username) }}">{{ $post->user->username }}</a>| {{ $post->created_at->format('d M') }} | {{ $post->comments->count() }} Comment{{ $post->comments->count() > 0 ? 's' : '' }} | <a href="#">{{ $post->category->name }} </a>
                       </div>
                     </div>
                     <div class="post-entry">

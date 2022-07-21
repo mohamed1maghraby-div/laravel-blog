@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Models\Contact;
 use App\Models\Post;
+use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\User;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Ui\Presets\React;
 
 class IndexController extends Controller
 {
@@ -92,7 +94,7 @@ class IndexController extends Controller
             $data['url'] = $request->url;
             $data['email'] = $request->email;
             $data['ip_address'] = $request->ip();
-            $data['comment'] = $request->comment;
+            $data['comment'] = Purify::clean($request->comment);
             $data['post_id'] = $post->id;
             $data['user_id'] = $userId;
 
@@ -107,6 +109,46 @@ class IndexController extends Controller
             'message' => 'Something was wrong',
             'alert-type' => 'danger'
         ]);
+    }
+
+    public function category($slug)
+    {
+        $category = Category::whereSlug($slug)->orWhere('id', $slug)->whereStatus(1)->first();
+
+        if($category){
+            $posts = Post::with(['media', 'user'])
+                ->whereCategoryId($category->id)
+                ->post()->active()->orderBy('id', 'desc')->paginate(5);
+
+            return view('user.index', compact('posts'));
+        }
+        return redirect()->route('user.index');
+    }
+
+    public function archive($date)
+    {
+        if(str_contains($date, '-')){
+            $exploded_date = explode('-', $date);
+            $month = $exploded_date[0];
+            $year = $exploded_date[1];
+            $posts = Post::with(['media', 'user'])->whereMonth('created_at', $month)->whereYear('created_at', $year)
+            ->post()->active()->orderBy('id', 'desc')->paginate(5);
+    
+            return view('user.index', compact('posts'));
+        }
+        return redirect()->route('user.index');
+    }
+
+    public function author($username)
+    {
+        $user = User::whereUsername($username)->whereStatus(1)->first();
+
+        if($user){
+            $posts = Post::with(['media', 'user'])->whereUserId($user->id)->post()->active()->orderBy('id', 'desc')->paginate(5);
+
+            return view('user.index', compact('posts'));
+        }
+        return redirect()->route('user.index');
     }
 
     public function contact()
@@ -131,7 +173,7 @@ class IndexController extends Controller
         $data['email'] = $request->email;
         $data['mobile'] = $request->mobile;
         $data['title'] = $request->title;
-        $data['message'] = $request->message;
+        $data['message'] = Purify::clean($request->message);
 
         Contact::create($data);
 

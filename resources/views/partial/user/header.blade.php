@@ -20,7 +20,7 @@
         <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Blog</a>
           <ul class="dropdown-menu" role="menu">
             @foreach ($global_categories as $global_category)
-              <li><a href="#" >{{ $global_category->name }}</a></li>
+              <li><a href="{{ route('user.category', $global_category->slug) }}" >{{ $global_category->name }}</a></li>
             @endforeach
           </ul>
         </li>

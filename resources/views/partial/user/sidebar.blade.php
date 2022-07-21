@@ -11,7 +11,7 @@
     <h5 class="widget-title font-alt">Blog Categories</h5>
     <ul class="icon-list">
         @foreach ($global_categories as $global_category)
-            <li><a href="#">{{ $global_category->name }}</a></li>
+            <li><a href="{{ route('user.category', $global_category->slug) }}">{{ $global_category->name }}</a></li>
         @endforeach
     </ul>
 </div>
@@ -41,7 +41,7 @@
     <h5 class="widget-title font-alt">Archives</h5>
     <ul class="icon-list">
         @foreach ($global_archives as $key => $val)
-            <li><a href="#">{{ date("F", mktime(0,0,0, $key, 1)) . ' ' . $val }}</a></li>
+            <li><a href="{{ route('user.archive', $key.'-'.$val) }}">{{ date("F", mktime(0,0,0, $key, 1)) . ' ' . $val }}</a></li>
         @endforeach
     </ul>
 </div>

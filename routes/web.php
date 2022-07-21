@@ -28,6 +28,9 @@ Route::post('/email/resend', [App\Http\Controllers\User\Auth\VerificationControl
 
 Route::get('/contact-us', [App\Http\Controllers\User\IndexController::class, 'contact'])->name('user.contact');
 Route::post('/contact-us', [App\Http\Controllers\User\IndexController::class, 'store_contact'])->name('user.do_contact');
+Route::get('/category/{category_slug}', [App\Http\Controllers\User\IndexController::class, 'category'])->name('user.category');
+Route::get('/archive/{data}', [App\Http\Controllers\User\IndexController::class, 'archive'])->name('user.archive');
+Route::get('/author/{username}', [App\Http\Controllers\User\IndexController::class, 'author'])->name('user.author');
 Route::get('/search', [App\Http\Controllers\User\IndexController::class, 'search'])->name('user.search');
 Route::get('/{post}', [App\Http\Controllers\User\IndexController::class, 'post_show'])->name('posts.show');
 Route::post('/{post}', [App\Http\Controllers\User\IndexController::class, 'store_comment'])->name('posts.add_comment');
