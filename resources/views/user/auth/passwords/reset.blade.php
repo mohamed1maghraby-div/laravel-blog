@@ -1,7 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<section class="module bg-dark-30" data-background="{{ asset('user/assets/images/section-4.jpg') }}">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        <h1 class="module-title font-alt mb-0">Reset Password</h1>
+        </div>
+    </div>
+    </div>
+</section>
+<section class="module">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-5 col-sm-offset-4 mb-sm-40">
+        <h4 class="font-alt">Reset Password</h4>
+        <hr class="divider-w mb-10">
+        {!! Form::open(['route' => 'password.update', 'method' => 'post', 'class' => 'form']) !!}
+            <input type="hidden" name="token" value="{{ $token }}">
+            <div class="form-group">
+                {!! Form::label('email', 'Email Address', ['class' => 'col-md-4 col-form-label text-md-end']) !!}
+                {!! Form::email('email', old('email'), ['class' => 'form-control', 'id' => 'email','placeholder' => 'Your E-mail']) !!}
+                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                {!! Form::label('password', 'Password *', ['class' => 'col-md-4 col-form-label text-md-end']) !!}
+                {!! Form::password('password', ['class' => 'form-control', 'id' => 'password','placeholder' => 'Password *']) !!}
+                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="form-group">
+                {!! Form::label('password_confirmation', 'Re-Password *', ['class' => 'col-md-4 col-form-label text-md-end']) !!}
+                {!! Form::password('password_confirmation', ['class' => 'form-control', 'id' => 'password_confirmation','placeholder' => 'Re-Password *']) !!}
+                @error('password_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="form-group">
+            {!! Form::button('Reset Password', ['type' => 'submit', 'class' => 'btn btn-round btn-b']) !!}
+            </div>
+        {!! Form::close() !!}
+        </div>
+    </div>
+    </div>
+</section>
+
+
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -61,5 +105,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection

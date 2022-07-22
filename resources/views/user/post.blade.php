@@ -10,7 +10,7 @@
                     </div>
                   <div class="post-header font-alt">
                     <h1 class="post-title">{{ $post->title }}</h1>
-                    <div class="post-meta">By&nbsp;<a href="#">{{ $post->user->username }}</a>| {{ $post->created_at->format('d M') }} | {{ $post->comments->count() }} Comment{{ $post->comments->count() > 0 ? 's' : '' }} | <a href="#">{{ $post->category->name }} </a>
+                    <div class="post-meta">By&nbsp;<a href="{{ route('user.author', $post->user->username) }}">{{ $post->user->username }}</a>| {{ $post->created_at->format('d M') }} | {{ $post->comments->count() }} Comment{{ $post->comments->count() > 0 ? 's' : '' }} | <a href="{{ route('user.category', $post->category->slug) }}">{{ $post->category->name }} </a>
                     </div>
                   </div>
                   <div class="post-entry">
