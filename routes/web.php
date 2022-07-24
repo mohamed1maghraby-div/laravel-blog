@@ -25,6 +25,34 @@ Route::post('/email/resend', [App\Http\Controllers\User\Auth\VerificationControl
 
 
 
+Route::group(['middleware' => 'verified'],function () {
+    Route::get('/dashboard', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.dashboard');
+    
+    
+    
+    Route::get('/edit-info', [App\Http\Controllers\User\UserController::class, 'edit_info'])->name('user.edit_info');
+    Route::post('/edit-info', [App\Http\Controllers\User\UserController::class, 'update_info'])->name('user.update_info');
+    Route::post('/edit-password', [App\Http\Controllers\User\UserController::class, 'update_password'])->name('user.update_password');
+    
+    Route::get('/create-post', [App\Http\Controllers\User\UserController::class, 'create_post'])->name('user.post.create');
+    Route::post('/create-post', [App\Http\Controllers\User\UserController::class, 'store_post'])->name('user.post.store');
+    
+    Route::get('/edit-post/{post_id}', [App\Http\Controllers\User\UserController::class, 'edit_post'])->name('user.post.edit');
+    Route::post('/edit-post/{post_id}', [App\Http\Controllers\User\UserController::class, 'update_post'])->name('user.post.update');
+    
+    Route::delete('/delete-post/{post_id}', [App\Http\Controllers\User\UserController::class, 'destroy_post'])->name('user.post.destroy');
+    Route::post('/delete-post-media/{media_id}', [App\Http\Controllers\User\UserController::class, 'destroy_post_media'])->name('user.post.media.destroy');
+    
+
+
+    Route::get('/comments', [App\Http\Controllers\User\UserController::class, 'show_comments'])->name('user.comments');
+    Route::get('/edit-comments/{comment_id}', [App\Http\Controllers\User\UserController::class, 'edit_comment'])->name('user.comment.edit');
+    Route::put('/edit-comments/{comment_id}', [App\Http\Controllers\User\UserController::class, 'update_comment'])->name('user.comment.update');
+    
+    Route::delete('/delete-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'destroy_comment'])->name('user.comment.destroy');
+});
+
+
 
 Route::get('/contact-us', [App\Http\Controllers\User\IndexController::class, 'contact'])->name('user.contact');
 Route::post('/contact-us', [App\Http\Controllers\User\IndexController::class, 'store_contact'])->name('user.do_contact');

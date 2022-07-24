@@ -63,6 +63,7 @@
     <!-- Main stylesheet and color file-->
     <link href="{{ asset('user/assets/css/style.css') }}" rel="stylesheet">
     <link id="color-scheme" href="{{ asset('user/assets/css/colors/default.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
     <div id="app">
@@ -158,6 +159,7 @@
         <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
         <script src="{{ asset('user/assets/js/main.js') }}"></script>
         <script src="{{ asset('user/assets/js/custom.js') }}"></script>
+        @yield('script')
     </div>
 </body>
 </html>

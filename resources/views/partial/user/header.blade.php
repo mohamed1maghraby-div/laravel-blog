@@ -74,7 +74,7 @@
                                 <span><a href="{{ route('login') }}">Login</a></span>
                                 <span><a href="{{ route('register') }}">Register</a></span>
                               @else
-                                <span><a href="#">My Dashboard</a></span>
+                                <span><a href="{{ route('user.dashboard') }}">My Dashboard</a></span>
                                 <span><a href="{{ route('logout') }}" onClick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></span>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
