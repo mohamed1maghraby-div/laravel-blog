@@ -18,8 +18,8 @@
                   </div>
                 </div>
                 <div class="comments">
-                  <h4 class="comment-title font-alt">There {{ $post->comments->count() > 1 ? 'are ' . $post->comments->count() . ' comments' : 'is ' . $post->comments->count() . ' comment'}}</h4>
-                  @forelse ($post->comments as $comment)
+                  <h4 class="comment-title font-alt">There {{ $post->approved_comments->count() > 1 ? 'are ' . $post->approved_comments->count() . ' comments' : 'is ' . $post->approved_comments->count() . ' comment'}}</h4>
+                  @forelse ($post->approved_comments as $comment)
                     <div class="comment clearfix">
                       <div class="comment-avatar">
                         <img src="{{ get_gravatar($comment->email, 46) }}" alt="avatar"/>

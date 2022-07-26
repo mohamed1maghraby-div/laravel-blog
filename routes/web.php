@@ -28,6 +28,10 @@ Route::post('/email/resend', [App\Http\Controllers\User\Auth\VerificationControl
 Route::group(['middleware' => 'verified'],function () {
     Route::get('/dashboard', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.dashboard');
     
+
+    Route::any('user/notifications/get', [App\Http\Controllers\User\NotificationController::class, 'getNotifications']);
+    Route::any('user/notifications/read', [App\Http\Controllers\User\NotificationController::class, 'markAsRead']);
+    Route::any('user/notifications/read/{id}', [App\Http\Controllers\User\NotificationController::class, 'markAsReadAndRedirect']);
     
     
     Route::get('/edit-info', [App\Http\Controllers\User\UserController::class, 'edit_info'])->name('user.edit_info');
@@ -46,8 +50,8 @@ Route::group(['middleware' => 'verified'],function () {
 
 
     Route::get('/comments', [App\Http\Controllers\User\UserController::class, 'show_comments'])->name('user.comments');
-    Route::get('/edit-comments/{comment_id}', [App\Http\Controllers\User\UserController::class, 'edit_comment'])->name('user.comment.edit');
-    Route::put('/edit-comments/{comment_id}', [App\Http\Controllers\User\UserController::class, 'update_comment'])->name('user.comment.update');
+    Route::get('/edit-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'edit_comment'])->name('user.comment.edit');
+    Route::put('/edit-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'update_comment'])->name('user.comment.update');
     
     Route::delete('/delete-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'destroy_comment'])->name('user.comment.destroy');
 });

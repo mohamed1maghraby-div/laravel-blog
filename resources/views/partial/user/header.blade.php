@@ -26,34 +26,7 @@
         </li>
         <li><a href="{{ route('user.contact') }}">Contact</a></li>
         @auth
-          <li>
-            <ul>
-              <li class="maghro-bell shopcart">
-                <a class="cartbox_active" href="#"><div class="maghro-bell-icon"><span class="maghro-bell-span">3</span></div></a>
-                <div class="block-minicart minicart__active">
-                    <div class="minicart-content-wrapper">
-                      <div class="micart__close">
-                        <span>close</span>
-                      </div>
-                      <div class="single__items">
-                        <div class="miniproduct">
-
-                          <div class="item01 d-flex">
-                            <div class="thumb">
-                              <a href="product-details.html"><img src="{{ asset('user/assets/images/icons/1.jpg') }}" alt="product images"></a>
-                            </div>
-                            <div class="content">
-                              <a href="#"> You have new comment on your post: postTitle</a>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>  
-              </li>
-            </ul>
-          </li>
+          <user-notification></user-notification>
         @endauth
         <li>
           <ul>
