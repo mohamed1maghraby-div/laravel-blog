@@ -58,6 +58,12 @@ Route::group(['middleware' => 'verified'],function () {
 
 
 
+Route::group(['prefix' => 'admin'], function(){
+    Route::get('/', [App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.index');
+});
+
+
+
 Route::get('/contact-us', [App\Http\Controllers\User\IndexController::class, 'contact'])->name('user.contact');
 Route::post('/contact-us', [App\Http\Controllers\User\IndexController::class, 'store_contact'])->name('user.do_contact');
 Route::get('/category/{category_slug}', [App\Http\Controllers\User\IndexController::class, 'category'])->name('user.category');
