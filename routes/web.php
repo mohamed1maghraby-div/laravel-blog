@@ -58,8 +58,36 @@ Route::group(['middleware' => 'verified'],function () {
 
 
 
-Route::group(['prefix' => 'admin'], function(){
-    Route::get('/', [App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.index');
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+    Route::get('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login'])->name('submitLogin');
+    Route::post('/logout', [App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
+    Route::get('/password/reset', [App\Http\Controllers\Admin\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/password/email', [App\Http\Controllers\Admin\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/password/reset/{token}', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+
+    Route::group(['middleware' => ['roles', 'role:admin|editor']], function(){
+        Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
+        Route::get('/index', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
+
+
+        Route::resources([
+            'posts' => App\Http\Controllers\Admin\PostsController::class,
+            'pages' => App\Http\Controllers\Admin\PagesController::class,
+            'post_comments' => App\Http\Controllers\Admin\PostCommentsController::class,
+            'post_categories' => App\Http\Controllers\Admin\PostCategoriesController::class,
+            'contact_us' => App\Http\Controllers\Admin\ContactUsController::class,
+            'users' => App\Http\Controllers\Admin\UsersController::class,
+            'supervisors' => App\Http\Controllers\Admin\SupervisorsController::class,
+            'settings' => App\Http\Controllers\Admin\SettingsController::class
+        ]);
+
+        Route::post('/posts/removeImage/{media_id}', [App\Http\Controllers\Admin\PostsController::class, 'removeImage'])->name('posts.media.destroy');
+        Route::post('/pages/removeImage/{media_id}', [App\Http\Controllers\Admin\PagesController::class, 'removeImage'])->name('pages.media.destroy');
+        Route::post('/users/removeImage', [App\Http\Controllers\Admin\UsersController::class, 'removeImage'])->name('users.remove_image');
+        Route::post('/supervisors/removeImage', [App\Http\Controllers\Admin\SupervisorsController::class, 'removeImage'])->name('supervisors.remove_image');
+    });
 });
 
 
