@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin-auth')
 @section('content')
 <div class="bg-gradient-primary" style="height: 100vh;">
     <div class="container">

@@ -32,7 +32,7 @@
                       </div>
                     </div>
                     <div class="post-entry">
-                      <p>{{ Str::limit($post->description, 241, '...') }}</p>
+                      <p>{!! Str::limit($post->description, 241, '...') !!}</p>
                     </div>
                     <div class="post-more"><a class="more-link" href="{{ route('posts.show', $post->slug) }}">Read more</a></div>
                   </div>

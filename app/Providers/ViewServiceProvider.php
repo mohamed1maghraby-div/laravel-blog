@@ -90,6 +90,7 @@ class ViewServiceProvider extends ServiceProvider
         }
 
         if(request()->is('admin/*')){
+            Paginator::defaultView('vendor.pagination.bootstrap-4');
             view()->composer('*', function($view){
                 if(!Cache::has('admin_side_menu')){
                     Cache::forever('admin_side_menu', Permission::tree());

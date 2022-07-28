@@ -197,7 +197,7 @@ class UserController extends Controller
             $data['comment_able'] = $request->comment_able;
             $data['category_id'] = $request->category_id;
 
-            $post = auth()->user()->posts()->create($data);
+            $post = auth()->user()->posts()->update($data);
 
             if($request->images && count($request->images) > 0){
                 $i = 1;

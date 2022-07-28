@@ -33,48 +33,22 @@
 </head>
 <body id="page-top">
     <div id="app">
-        <div id="wrapper">
-            @include('partial.admin.sidebar')
-            <div id="content-wrapper" class="d-flex flex-column">
-                <div id="content">
-                    @include('partial.admin.header')
-                    <div class="col-lg-12">
-                        @include('partial.flash')
-                    </div>
-                    <div class="container-fluid">
-                        @yield('content')
-                    </div>
-                </div>
-                @include('partial.admin.footer')
-            </div>
+        <div class="col-lg-12">
+            @include('partial.flash')
         </div>
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @yield('content')
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+
+        <!-- Bootstrap core JavaScript-->
         <script src="{{ asset('admin/dashboard/vendor/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('admin/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+        <!-- Core plugin JavaScript-->
         <script src="{{ asset('admin/dashboard/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+        <!-- Custom scripts for all pages-->
         <script src="{{ asset('admin/dashboard/js/sb-admin-2.min.js') }}"></script>
         @yield('script')
     </div>

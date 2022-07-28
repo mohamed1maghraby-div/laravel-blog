@@ -59,7 +59,7 @@ return [
      *    'method' => array('Str','slug'),
      */
 
-    'method' => null,
+    'method' => [App\Helper\MySlugHelper::class, 'slug'],
 
     /**
      * Separator to use when generating slugs.  Defaults to a hyphen.
@@ -147,7 +147,7 @@ return [
      * Only set this to true if you understand the possible consequences.
      */
     
-    'onUpdate' => false,
+    'onUpdate' => true,
 
     /**
      * If the default slug engine of cocur/slugify is used, this array of
