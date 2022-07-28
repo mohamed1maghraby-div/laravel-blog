@@ -56,4 +56,9 @@ class LoginController extends Controller
             Auth::logout();
         }
     }
+
+    protected function loggedOut(Request $request)
+    {
+        return redirect()->route('admin.login');
+    }
 }
