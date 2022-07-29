@@ -2,17 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Nicolaslopezj\Searchable\SearchableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Page extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, SearchableTrait;
 
     protected $table = 'posts';
 
     protected $guarded = [];
+
+    protected $searchable = [
+        'columns' => [
+            'posts.title' => 10,
+            'posts.description' => 10,
+        ],
+    ];
 
     public function sluggable(): array
     {
