@@ -48,7 +48,6 @@
             Echo.private('App.Models.User.' + userId).notification((notification) => {
                 this.unread.unshift(notification);
                 this.unreadCount++;
-                console.log(this.unreadCount);
             });
         },
         methods: {

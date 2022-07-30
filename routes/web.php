@@ -68,6 +68,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::post('/password/reset', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
     Route::group(['middleware' => ['roles', 'role:admin|editor']], function(){
+        Route::any('/notifications/get', [App\Http\Controllers\Admin\NotificationsController::class, 'getNotifications']);
+        Route::any('/notifications/read', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsRead']);
+        Route::any('/notifications/read/{id}', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsReadAndRedirect']);
+    
+
         Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
         Route::get('/index', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
 
