@@ -99,7 +99,7 @@ class UsersController extends Controller
         $data['email'] = $request->email;
         $data['email_verified_at'] = Carbon::now();
         $data['mobile'] = $request->mobile;
-        $data['password'] = $request->password;
+        $data['password'] = bcrypt($request->password);
         $data['status'] = $request->status;
         $data['bio'] = $request->bio;
         $data['receive_email'] = $request->receive_email;
@@ -249,8 +249,8 @@ class UsersController extends Controller
 
         if($user){
             if($user->user_image != ''){
-                if(File::exists('assets/posts/' . $user->file_name)){
-                    unlink('assets/posts/' . $user->file_name);
+                if(File::exists('assets/posts/' . $user->user_image)){
+                    unlink('assets/posts/' . $user->user_image);
                 }
             }
 
