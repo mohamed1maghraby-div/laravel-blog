@@ -30,6 +30,7 @@
 
 
     @yield('style')
+    @livewireStyles
 </head>
 <body id="page-top">
     <div id="app">
@@ -77,6 +78,8 @@
         <script src="{{ asset('admin/dashboard/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
         <script src="{{ asset('admin/dashboard/js/sb-admin-2.min.js') }}"></script>
         @yield('script')
+        @livewireScripts
+        @stack('script')
     </div>
 </body>
 </html>
