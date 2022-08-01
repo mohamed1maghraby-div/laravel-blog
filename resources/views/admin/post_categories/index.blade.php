@@ -2,7 +2,7 @@
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">Posts</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Categories</h6>
             <div class="ml-auto">
                 <a class="btn btn-primary" href="{{ route('admin.post_categories.create') }}">
                     <span class="icon text-white-50">

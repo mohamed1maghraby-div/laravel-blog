@@ -90,7 +90,6 @@ class PagesController extends Controller
             'title' => 'required',
             'description' => 'required|min:50',
             'status' => 'required',
-            'comment_able' => 'required',
             'category_id' => 'required',
         ]);
 
@@ -125,7 +124,7 @@ class PagesController extends Controller
             }
         }
 
-        return redirect()->back()->with([
+        return redirect()->route('admin.pages.index')->with([
             'message' => 'Page created successfully',
             'alert-type' => 'success'
         ]);

@@ -6,7 +6,17 @@
               <div class="col-sm-8">
                 <div class="post">
                     <div class="post-thumbnail">
-                        <img src="{{ asset('user/assets/images/post-4.jpg') }}" alt="Blog Featured Image"/>
+                      @if ($post->media->count() > 0)
+                        <div class="post-images-slider">
+                          <ul class="slides">
+                            @foreach ($post->media as $media)
+                            <li><img src="{{ asset('assets/posts/' . $media->file_name) }}" alt="{{ $post->title }}"/></li>
+                            @endforeach
+                          </ul>
+                        </div>
+                      @else
+                        <img src="{{ asset('user/assets/images/post-4.jpg') }}" alt="{{ $post->title }}"/>
+                      @endif
                     </div>
                   <div class="post-header font-alt">
                     <h1 class="post-title">{{ $post->title }}</h1>

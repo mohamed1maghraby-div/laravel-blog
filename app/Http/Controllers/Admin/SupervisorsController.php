@@ -125,7 +125,7 @@ class SupervisorsController extends Controller
         }
 
         return redirect()->route('admin.supervisors.index')->with([
-            'message' => 'User created successfully',
+            'message' => 'Supervisor created successfully',
             'alert-type' => 'success'
         ]);
     }
