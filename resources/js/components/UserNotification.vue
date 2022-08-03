@@ -39,16 +39,17 @@
             return {
                 read: {},
                 unread: {},
-                unreadCount: 0,
+                unreadCount: 0
             }
         },
         created: function(){
             this.getNotifications();
             let userId = $('meta[name="userId"]').attr('content');
-            Echo.private('App.Models.User.' + userId).notification((notification) => {
-                this.unread.unshift(notification);
-                this.unreadCount++;
-            });
+            Echo.private('App.Models.User.' + userId)
+                .notification((notification) => {
+                    this.unread.unshift(notification);
+                    this.unreadCount++;
+                });
         },
         methods: {
             getNotifications() {

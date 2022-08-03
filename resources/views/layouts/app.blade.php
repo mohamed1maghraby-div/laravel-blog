@@ -79,24 +79,24 @@
             </div>
         </main>
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        
-        <script src="{{ asset('user/assets/lib/jquery/dist/jquery.js') }}" ></script>
-        <script src="{{ asset('user/assets/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/wow/dist/wow.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/isotope/dist/isotope.pkgd.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/imagesloaded/imagesloaded.pkgd.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/flexslider/jquery.flexslider.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/smoothscroll.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/magnific-popup/dist/jquery.magnific-popup.js') }}"></script>
-        <script src="{{ asset('user/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
-        <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
-        <script src="{{ asset('user/assets/js/main.js') }}"></script>
-        <script src="{{ asset('user/assets/js/custom.js') }}"></script>
-        @yield('script')
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('user/assets/lib/jquery/dist/jquery.js') }}" ></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    
+    <script src="{{ asset('user/assets/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/wow/dist/wow.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/isotope/dist/isotope.pkgd.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/imagesloaded/imagesloaded.pkgd.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/flexslider/jquery.flexslider.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/smoothscroll.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/magnific-popup/dist/jquery.magnific-popup.js') }}"></script>
+    <script src="{{ asset('user/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
+    <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
+    <script src="{{ asset('user/assets/js/main.js') }}"></script>
+    <script src="{{ asset('user/assets/js/custom.js') }}"></script>
+    @yield('script')
 </body>
 </html>
