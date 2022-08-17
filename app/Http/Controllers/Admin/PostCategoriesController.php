@@ -3,22 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
+use App\Traits\Admin\FiltersTrait;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Validator;
 
 class PostCategoriesController extends Controller
 {
-    public function __construct()
-    {
-        if(\auth()->check()){
-            $this->middleware('auth');
-        }else{
-            return redirect()->route('admin.login');
-        }
-    }
+    use FiltersTrait;
     /**
      * Display a listing of the resource.
      *
@@ -30,22 +23,16 @@ class PostCategoriesController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $categoryId = (isset(\request()->category_id) && \request()->category_id != '') ? \request()->category_id : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
-
+        $this->setFilters(request()->keyword, request()->status, request()->sort_by, request()->order_by, request()->limit_by);
         $categories = Category::withCount('posts');
-        if($keyword != null){
-            $categories = $categories->search($keyword);
+        if($this->getKeyword() != null){
+            $categories = $categories->search($this->getKeyword());
         }
 
-        if($status != null){
-            $categories = $categories->whereStatus($status);
+        if($this->getStatus() != null){
+            $categories = $categories->whereStatus($this->getStatus());
         }
-        $categories = $categories->orderBy($sort_by, $order_by)->paginate($limit_by);
+        $categories = $categories->orderBy($this->getSortBy(), $this->getOrderBy())->paginate($this->getLimitBy());
         return view('admin.post_categories.index', compact('categories'));
     }
 
@@ -68,28 +55,17 @@ class PostCategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         if(!\auth()->user()->ability('admin', 'create_post_categories')){
             return redirect('admin/index');
         }
 
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'status' => 'required'
-        ]);
-
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-        $data['name'] = $request->name;
-        $data['status'] = $request->status;
-
-        Category::create($data);
-
+        Category::create($request->validated());
         if($request->status == 1){
             Cache::forget('global_categories');
         }
+
         return redirect()->route('admin.post_categories.index')->with([
             'message' => 'Category created successfully',
             'alert-type' => 'success'
@@ -129,27 +105,16 @@ class PostCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         if(!\auth()->user()->ability('admin', 'update_post_categories')){
             return redirect('admin/index');
         }
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'status' => 'required'
-        ]);
 
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
         $category = Category::whereId($id)->first();
 
         if($category){
-            $data['name'] = $request->name;
-            $data['slug'] = $request->null;
-            $data['status'] = $request->status;
-
-            $category->update($data);
+            $category->update($request->validated());
 
             if($request->status == 1){
                 Cache::forget('global_categories');

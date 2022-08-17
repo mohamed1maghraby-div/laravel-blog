@@ -45,15 +45,6 @@
     <div class="row">
         <div class="col-4">
             <div class="form-group">
-                {!! Form::label('ip_address', 'ip_address') !!}
-                {!! Form::text('ip_address', old('ip_address', $comment->ip_address), ['class' => 'form-control']) !!}
-                @error('ip_address') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <div class="form-group">
                 {!! Form::label('status', 'Status') !!}
                 {!! Form::select('status', ['1' => 'Active', '0' => 'Inactive'], old('status', $comment->status), ['class' => 'form-control']) !!}
                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror

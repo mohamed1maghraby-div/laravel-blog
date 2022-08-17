@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    @include('admin.users.filter.filter')
+    @include('admin.supervisors.filter.filter')
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -33,7 +33,7 @@
                             @if ($user->user_image != '')
                                 <img src="{{ asset('assets/users/' . $user->user_image) }}" width="60" >
                             @else
-                                <img src="{{ asset('assets/users/defaul.png') }}" width="60">
+                                <img src="{{ asset('assets/users/default.png') }}" width="60">
                             @endif
                         </td>
                         <td>

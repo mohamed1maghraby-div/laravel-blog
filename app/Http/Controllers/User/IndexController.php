@@ -6,12 +6,12 @@ use App\Models\Post;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\ContactRequest;
 use App\Models\Category;
 use App\Models\User;
 use App\Notifications\NewCommentForAdminNotify;
 use App\Notifications\NewCommentForPostOwnerNotify;
-use Stevebauman\Purify\Facades\Purify;
-use Illuminate\Support\Facades\Validator;
 
 class IndexController extends Controller
 {
@@ -74,33 +74,18 @@ class IndexController extends Controller
         }
     }
 
-    public function store_comment(Request $request, $slug)
+    public function store_comment(CommentRequest $request, $slug)
     {
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'url' => 'required|url',
-            'email' => 'required|email',
-            'comment' => 'required|min:10'
-        ]);
-
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
         $post = Post::whereSlug($slug)->post()->active()->first();
-
         if($post){
-
-            $userId = auth()->check() ? auth()->id() : null;
-            $data['name'] = $request->name;
-            $data['url'] = $request->url;
-            $data['email'] = $request->email;
-            $data['ip_address'] = $request->ip();
-            $data['comment'] = Purify::clean($request->comment);
-            $data['post_id'] = $post->id;
-            $data['user_id'] = $userId;
-
-            $comment = $post->comments()->create($data);
+            $comment = $post->comments()->create(array_merge(
+                $request->validated(),
+                [
+                    'post_id' => $post->id,
+                    'ip_address' => $request->ip(),
+                    'user_id' => auth()->check() ? auth()->id() : null,
+                ]
+            ));
 
             if(auth()->guest() || auth()->id() != $post->user_id){
                 $post->user->notify(new NewCommentForPostOwnerNotify($comment));
@@ -168,27 +153,9 @@ class IndexController extends Controller
         return view('user.contact');
     }
 
-    public function store_contact(Request $request)
+    public function store_contact(ContactRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'mobile' => 'required|numeric',
-            'title' => 'required|min:5',
-            'message' => 'required|min:10',
-        ]);
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['mobile'] = $request->mobile;
-        $data['title'] = $request->title;
-        $data['message'] = Purify::clean($request->message);
-
-        Contact::create($data);
-
+        Contact::create($request->validated());
         return redirect()->back()->with([
             'message' => 'Message sent successfully',
             'alert-type' => 'sucess'

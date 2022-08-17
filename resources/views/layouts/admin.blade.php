@@ -71,6 +71,7 @@
             </div>
         </div>
 
+    </div>
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('admin/dashboard/vendor/jquery/jquery.min.js') }}"></script>
@@ -80,6 +81,5 @@
         @yield('script')
         @livewireScripts
         @stack('script')
-    </div>
 </body>
 </html>

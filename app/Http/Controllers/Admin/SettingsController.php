@@ -9,14 +9,7 @@ use Spatie\Valuestore\Valuestore;
 
 class SettingsController extends Controller
 {
-    public function __construct()
-    {
-        if(\auth()->check()){
-            $this->middleware('auth');
-        }else{
-            return redirect()->route('admin.login');
-        }
-    }
+
     /**
      * Display a listing of the resource.
      *

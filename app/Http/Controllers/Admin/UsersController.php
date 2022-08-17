@@ -2,66 +2,42 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UserRequest;
+use App\Traits\Admin\FiltersTrait;
+use App\Traits\ImagesManagerTrait;
 
 class UsersController extends Controller
 {
-    public function __construct()
-    {
-        if(\auth()->check()){
-            $this->middleware('auth');
-        }else{
-            return redirect()->route('admin.login');
-        }
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use FiltersTrait, ImagesManagerTrait;
+
     public function index()
     {
         if(!\auth()->user()->ability('admin', 'manage_users,show_users')){
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
-
-
+        $this->setFilters(request()->keyword, request()->status, request()->sort_by, request()->order_by, request()->limit_by);
         $users = User::whereHas('roles', function($query){
             $query->where('name', 'user');
         });
 
-        if($keyword != null){
-            $users = $users->search($keyword);
+        if($this->getKeyword() != null){
+            $users = $users->search($this->getKeyword());
         }
 
-        if($status != null){
-            $users = $users->whereStatus($status);
+        if($this->getStatus() != null){
+            $users = $users->whereStatus($this->getStatus());
         }
 
-        $users = $users->orderBy($sort_by, $order_by)->paginate($limit_by);
+        $users = $users->orderBy($this->getSortBy(), $this->getOrderBy())->paginate($this->getLimitBy());
 
         return view('admin.users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if(!\auth()->user()->ability('admin', 'create_users')){
@@ -70,50 +46,19 @@ class UsersController extends Controller
         return view('admin.users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         if(!\auth()->user()->ability('admin', 'create_users')){
             return redirect('admin/index');
         }
 
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'username' => 'required|max:20|unique:users',
-            'email' => 'required|email|unique:users',
-            'mobile' => 'required|numeric|unique:users',
-            'status' => 'required',
-            'password' => 'required|min:8',
-        ]);
-
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-        $data['name'] = $request->name;
-        $data['username'] = $request->username;
-        $data['email'] = $request->email;
-        $data['email_verified_at'] = Carbon::now();
-        $data['mobile'] = $request->mobile;
-        $data['password'] = bcrypt($request->password);
-        $data['status'] = $request->status;
-        $data['bio'] = $request->bio;
-        $data['receive_email'] = $request->receive_email;
-
         if($user_image = $request->file('user_image')){
-            $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
-            $path = public_path('assets/users/' . $filename);
-            Image::make($user_image->getRealPath())->resize(300, 300, function($constraint){
-                $constraint->aspectRatio();
-            })->save($path, 100);
-            $data['user_image'] = $filename;
+            $data['user_image'] = $this->createUserImageUploade($user_image, $request->username);
+        }else{
+            $data['user_image'] = null;
         }
-
-        $user = User::create($data);
+        
+        $user = User::create(array_merge($request->validated(), ['user_image' => $data['user_image']]));
         $user->attachRole(Role::whereName('user')->first()->id);
 
         return redirect()->route('admin.users.index')->with([
@@ -122,12 +67,6 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         if(!\auth()->user()->ability('admin', 'display_users')){
@@ -144,12 +83,6 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         if(!\auth()->user()->ability('admin', 'update_users')){
@@ -166,61 +99,23 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         if(!\auth()->user()->ability('admin', 'update_posts')){
             return redirect('admin/index');
-        }
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'username' => 'required|max:20|unique:users,username,' . $id,
-            'email' => 'required|email|max:255|unique:users,mobile,' . $id,
-            'mobile' => 'required|numeric|unique:users,mobile,'. $id,
-            'status' => 'required',
-            'password' => 'nullable|min:8'
-        ]);
-
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
         }
 
         $user = User::whereId($id)->first();
 
         if($user){
-            $data['name'] = $request->name;
-            $data['username'] = $request->username;
-            $data['email'] = $request->email;
-            $data['mobile'] = $request->mobile;
-            
-            if(trim($request->passwrod) != ''){
-                $data['password'] = bcrypt($request->password);
-            }
-            $data['status'] = $request->status;
-            $data['bio'] = $request->bio;
-            $data['receive_email'] = $request->receive_email;
-
-            if($user_image = $request->file('user_image')){
-                if($user->user_image != ''){
-                    if(File::exists('assets/users/' . $user->user_image)){
-                        unlink('assets/users/' . $user->user_image);
-                    }
-                }
-                $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
-                $path = public_path('assets/users/' . $filename);
-                Image::make($user_image->getRealPath())->resize(300, 300, function($constraint){
-                    $constraint->aspectRatio();
-                })->save($path, 100);
-                $data['user_image'] = $filename;
-            }
-            
-            $user->update($data);
+            if($request->file('user_image')){
+                $user->update(
+                    array_merge(
+                        $request->validated(),
+                        ['user_image' => $this->UserImageUploade($request->file('user_image'), $user->user_image, $user->username)]));
+            }else{
+                $user->update($request->validated());
+            }   
 
             return redirect()->route('admin.users.index')->with([
                 'message' => 'User updated successfully',
@@ -233,12 +128,6 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         if(!\auth()->user()->ability('admin', 'delete_users')){
@@ -248,11 +137,7 @@ class UsersController extends Controller
         $user = User::whereId($id)->first();
 
         if($user){
-            if($user->user_image != ''){
-                if(File::exists('assets/posts/' . $user->user_image)){
-                    unlink('assets/posts/' . $user->user_image);
-                }
-            }
+            $this->destroyUserMedia($user);
 
             $user->delete();
 
@@ -274,17 +159,6 @@ class UsersController extends Controller
             return redirect('admin/index');
         }
 
-        $user = User::whereId($request->user_id)->first();
-
-        if($user){
-            if(File::exists('assets/users/' . $user->user_image)){
-                unlink('assets/users/' . $user->user_image);
-            }
-            $user->user_image = null;
-            $user->save();
-
-            return 'true';
-        }
-        return 'false';
+        return $this->destroyUserImage($request->user_id);
     }
 }

@@ -19,7 +19,7 @@
           <div class="row">
             <div class="col-lg-9 col-12">
                 <h3>Edit Post {{ $post->title }}</h3>
-                {!! Form::model(['route' => ['user.post.update', $post->id] , 'method' => 'put', 'files' => true]) !!}
+                {!! Form::model($post, ['route' => ['user.post.update', $post->id] , 'method' => 'post', 'files' => true]) !!}
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">

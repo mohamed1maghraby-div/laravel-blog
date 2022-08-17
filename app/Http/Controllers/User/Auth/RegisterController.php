@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\User\Auth;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
-use App\Providers\RouteServiceProvider;
+use App\Traits\ImagesManagerTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -25,7 +23,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers, ImagesManagerTrait;
 
     /**
      * Where to redirect users after registration.
@@ -79,14 +77,7 @@ class RegisterController extends Controller
         ]);
 
         if(isset($data['user_image'])){
-            if($image = $data['user_image']){
-                $filename = Str::slug($data['user_image']) . '.' . $image->getClientOriginalExtension();
-                $path = public_path('assets/users/' . $filename);
-                Image::make($image->getRealPath())->resize(300, 300, function($constraint){
-                    $constraint->aspectRatio();
-                })->save($path, 100);
-                $user->update(['user_image' => $filename]);
-            }
+            $this->createUserImageUploade($data['user_image'], $user->username);
         }
 
         return $user;

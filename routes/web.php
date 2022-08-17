@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\User\IndexController::class, 'index'])->name('user.index');
 
-
-
 Route::get('/login', [App\Http\Controllers\User\Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [App\Http\Controllers\User\Auth\LoginController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\User\Auth\LoginController::class, 'logout'])->name('logout');
@@ -23,16 +21,12 @@ Route::get('/email/verify', [App\Http\Controllers\User\Auth\VerificationControll
 Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\User\Auth\VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/email/resend', [App\Http\Controllers\User\Auth\VerificationController::class, 'resend'])->name('verification.resend');
 
-
-
-Route::group(['middleware' => 'verified'],function () {
+Route::group(['middleware' => 'verified', 'auth'],function () {
     Route::get('/dashboard', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.dashboard');
-    
 
     Route::any('user/notifications/get', [App\Http\Controllers\User\NotificationController::class, 'getNotifications']);
     Route::any('user/notifications/read', [App\Http\Controllers\User\NotificationController::class, 'markAsRead']);
     Route::any('user/notifications/read/{id}', [App\Http\Controllers\User\NotificationController::class, 'markAsReadAndRedirect']);
-    
     
     Route::get('/edit-info', [App\Http\Controllers\User\UserController::class, 'edit_info'])->name('user.edit_info');
     Route::post('/edit-info', [App\Http\Controllers\User\UserController::class, 'update_info'])->name('user.update_info');
@@ -47,16 +41,12 @@ Route::group(['middleware' => 'verified'],function () {
     Route::delete('/delete-post/{post_id}', [App\Http\Controllers\User\UserController::class, 'destroy_post'])->name('user.post.destroy');
     Route::post('/delete-post-media/{media_id}', [App\Http\Controllers\User\UserController::class, 'destroy_post_media'])->name('user.post.media.destroy');
     
-
-
     Route::get('/comments', [App\Http\Controllers\User\UserController::class, 'show_comments'])->name('user.comments');
     Route::get('/edit-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'edit_comment'])->name('user.comment.edit');
     Route::put('/edit-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'update_comment'])->name('user.comment.update');
     
     Route::delete('/delete-comment/{comment_id}', [App\Http\Controllers\User\UserController::class, 'destroy_comment'])->name('user.comment.destroy');
 });
-
-
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
@@ -67,15 +57,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('/password/reset/{token}', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
-    Route::group(['middleware' => ['roles', 'role:admin|editor']], function(){
+    Route::group(['middleware' => ['roles', 'role:admin|editor', 'auth']], function(){
         Route::any('/notifications/get', [App\Http\Controllers\Admin\NotificationsController::class, 'getNotifications']);
         Route::any('/notifications/read', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsRead']);
         Route::any('/notifications/read/{id}', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsReadAndRedirect']);
     
-
-        Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
-        Route::get('/index', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
-
+        Route::view('/', 'admin.index')->name('index');
+        Route::view('/index', 'admin.index')->name('index');
 
         Route::resources([
             'posts' => App\Http\Controllers\Admin\PostsController::class,
@@ -94,8 +82,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         Route::post('/supervisors/removeImage', [App\Http\Controllers\Admin\SupervisorsController::class, 'removeImage'])->name('supervisors.remove_image');
     });
 });
-
-
 
 Route::get('/contact-us', [App\Http\Controllers\User\IndexController::class, 'contact'])->name('user.contact');
 Route::post('/contact-us', [App\Http\Controllers\User\IndexController::class, 'store_contact'])->name('user.do_contact');

@@ -89,7 +89,7 @@ class ViewServiceProvider extends ServiceProvider
             });
         }
 
-        if(request()->is('admin/*')){
+        if(request()->is('admin/*') || request()->is('admin')){
             Paginator::defaultView('vendor.pagination.bootstrap-4');
             view()->composer('*', function($view){
                 if(!Cache::has('admin_side_menu')){

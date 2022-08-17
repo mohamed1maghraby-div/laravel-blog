@@ -77,6 +77,7 @@
             </div>
         </main>
 
+    </div>
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         
@@ -95,6 +96,5 @@
         <script src="{{ asset('user/assets/js/main.js') }}"></script>
         <script src="{{ asset('user/assets/js/custom.js') }}"></script>
         @yield('script')
-    </div>
 </body>
 </html>
